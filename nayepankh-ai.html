@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nayepankh Foundation - AI for Good</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --primary: #6C63FF;
+      --primary-dark: #5A52D5;
+      --secondary: #00D9A6;
+      --accent: #FF6B9D;
+      --bg: #0A0B1A;
+      --bg-card: #13142A;
+      --bg-card-hover: #1A1B35;
+      --text: #E8E9F3;
+      --text-muted: #8B8DA3;
+      --border: #2A2B45;
+      --gradient-1: linear-gradient(135deg, #6C63FF, #00D9A6);
+      --gradient-2: linear-gradient(135deg, #FF6B9D, #6C63FF);
+      --shadow: 0 8px 32px rgba(108, 99, 255, 0.15);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(10, 11, 26, 0.85); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 70px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 1.3rem; font-weight: 800;
+      background: var(--gradient-1); -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .nav-logo svg { width: 32px; height: 32px; }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none; font-size: 0.9rem;
+      font-weight: 500; transition: color 0.3s; cursor: pointer;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .nav-cta {
+      background: var(--gradient-1); color: #fff !important;
+      padding: 8px 20px; border-radius: 8px; font-weight: 600 !important;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; overflow: hidden; z-index: 0;
+    }
+    .hero-bg .orb {
+      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.3;
+      animation: float 20s ease-in-out infinite;
+    }
+    .hero-bg .orb:nth-child(1) {
+      width: 500px; height: 500px; background: var(--primary);
+      top: -10%; left: -10%;
+    }
+    .hero-bg .orb:nth-child(2) {
+      width: 400px; height: 400px; background: var(--secondary);
+      bottom: -10%; right: -10%; animation-delay: -7s;
+    }
+    .hero-bg .orb:nth-child(3) {
+      width: 300px; height: 300px; background: var(--accent);
+      bottom: 20%; left: 20%; animation-delay: -14s;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -30px) scale(1.1); }
+      66% { transform: translate(-20px, 20px) scale(0.9); }
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 900px; }
+    .hero-badge {
+      display: inline-block; padding: 6px 16px; border-radius: 50px;
+      background: rgba(108, 99, 255, 0.15); border: 1px solid rgba(108, 99, 255, 0.3);
+      font-size: 0.85rem; color: var(--primary); margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+    .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; }
+    .hero h1 span { background: var(--gradient-1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { font-size: 1.15rem; color: var(--text-muted); max-width: 650px; margin: 0 auto 2.5rem; line-height: 1.8; }
+    .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 32px; border-radius: 12px; font-weight: 600; font-size: 1rem;
+      text-decoration: none; cursor: pointer; border: none; transition: all 0.3s;
+    }
+    .btn-primary { background: var(--gradient-1); color: #fff; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .btn-secondary { background: rgba(255,255,255,0.05); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+
+    /* Sections common */
+    section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 3.5rem; }
+    .section-header h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.75rem; }
+    .section-header p { color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+
+    /* AI Features Grid */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+    .feature-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
+      padding: 2rem; transition: all 0.3s; cursor: default;
+    }
+    .feature-card:hover { background: var(--bg-card-hover); transform: translateY(-4px); border-color: var(--primary); }
+    .feature-icon {
+      width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 1.2rem;
+    }
+    .feature-card h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+    .feature-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
+
+    /* Dashboard */
+    .dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .dashboard-card {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 2rem;
+    }
+    .dashboard-card.full { grid-column: 1 / -1; }
+    .dashboard-card h3 { font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+
+    /* Chat */
+    .chat-container {
+      display: flex; flex-direction: column; height: 450px;
+    }
+    .chat-messages {
+      flex: 1; overflow-y: auto; padding: 1rem 0; display: flex; flex-direction: column; gap: 1rem;
+    }
+    .chat-message {
+      display: flex; gap: 12px; max-width: 85%;
+    }
+    .chat-message.bot { align-self: flex-start; }
+    .chat-message.user { align-self: flex-end; flex-direction: row-reverse; }
+    .chat-avatar {
+      width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; font-weight: 700; flex-shrink: 0;
+    }
+    .chat-message.bot .chat-avatar { background: var(--gradient-1); color: #fff; }
+    .chat-message.user .chat-avatar { background: var(--gradient-2); color: #fff; }
+    .chat-bubble {
+      padding: 10px 16px; border-radius: 16px; font-size: 0.9rem; line-height: 1.5;
+    }
+    .chat-message.bot .chat-bubble {
+      background: var(--bg-card-hover); border: 1px solid var(--border);
+      border-bottom-left-radius: 4px;
+    }
+    .chat-message.user .chat-bubble {
+      background: var(--primary); color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+    .chat-input-area {
+      display: flex; gap: 8px; margin-top: 1rem;
+    }
+    .chat-input-area input {
+      flex: 1; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border);
+      background: var(--bg-card-hover); color: var(--text); font-size: 0.9rem; outline: none;
+      transition: border-color 0.3s;
+    }
+    .chat-input-area input:focus { border-color: var(--primary); }
+    .chat-input-area button {
+      padding: 12px 20px; border-radius: 12px; border: none; background: var(--gradient-1);
+      color: #fff; font-weight: 600; cursor: pointer; transition: transform 0.2s;
+    }
+    .chat-input-area button:hover { transform: scale(1.03); }
+    .chat-input-area button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .typing-indicator {
+      display: flex; gap: 4px; padding: 8px 4px;
+    }
+    .typing-indicator span {
+      width: 8px; height: 8px; background: var(--text-muted); border-radius: 50%;
+      animation: typing 1.4s infinite ease-in-out;
+    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes typing {
+      0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+      30% { opacity: 1; transform: translateY(-4px); }
+    }
+    .chat-status { font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 0.5rem; }
+
+    /* AI tools inside cards */
+    .tool-input {
+      width: 100%; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--bg-card-hover); color: var(--text); font-size: 0.9rem; outline: none;
+      margin-bottom: 0.75rem; transition: border-color 0.3s; resize: vertical;
+    }
+    .tool-input:focus { border-color: var(--primary); }
+    .tool-btn {
+      padding: 8px 18px; border-radius: 10px; border: none; background: var(--gradient-1);
+      color: #fff; font-weight: 600; cursor: pointer; font-size: 0.85rem;
+      transition: transform 0.2s;
+    }
+    .tool-btn:hover { transform: scale(1.02); }
+    .tool-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .tool-output {
+      margin-top: 0.75rem; padding: 12px; border-radius: 10px;
+      background: var(--bg-card-hover); border: 1px solid var(--border);
+      font-size: 0.85rem; min-height: 50px; line-height: 1.5; white-space: pre-wrap;
+    }
+
+    /* Personalized welcome */
+    .welcome-section {
+      text-align: center; padding: 2rem 0;
+    }
+    .welcome-name {
+      font-size: 1.4rem; font-weight: 700; margin-bottom: 0.3rem;
+    }
+    .greeting {
+      color: var(--text-muted); margin-bottom: 1rem;
+    }
+    .name-input-group {
+      display: flex; gap: 8px; justify-content: center; margin-top: 1rem;
+    }
+    .name-input-group input {
+      padding: 10px 16px; border-radius: 10px; border: 1px solid var(--border);
+      background: var(--bg-card-hover); color: var(--text); font-size: 0.9rem; outline: none;
+      max-width: 250px;
+    }
+    .name-input-group input:focus { border-color: var(--primary); }
+
+    /* Recommendations */
+    .rec-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .rec-item {
+      display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+      border-radius: 10px; background: var(--bg-card-hover); border: 1px solid var(--border);
+      cursor: pointer; transition: all 0.3s;
+    }
+    .rec-item:hover { border-color: var(--primary); transform: translateX(4px); }
+    .rec-icon { font-size: 1.4rem; }
+    .rec-info h4 { font-size: 0.9rem; }
+    .rec-info p { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* Sentiment */
+    .sentiment-result {
+      display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: 10px;
+      background: var(--bg-card-hover); border: 1px solid var(--border); margin-top: 0.75rem;
+    }
+    .sentiment-gauge {
+      width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem; flex-shrink: 0;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center; padding: 3rem 2rem; border-top: 1px solid var(--border);
+      color: var(--text-muted); font-size: 0.85rem;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 9999;
+      padding: 14px 24px; border-radius: 12px; font-size: 0.9rem; font-weight: 500;
+      background: var(--bg-card); border: 1px solid var(--border);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      transform: translateY(100px); opacity: 0; transition: all 0.4s;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 1rem; }
+      .nav-links a:not(.nav-cta) { display: none; }
+      .hero { padding: 5rem 1rem 3rem; }
+      section { padding: 3rem 1rem; }
+      .dashboard { grid-template-columns: 1fr; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">
+      <svg viewBox="0 0 32 32" fill="none"><path d="M16 2L4 9v14l12 7 12-7V9L16 2z" fill="url(#lg)"/><path d="M16 6l-8 4.5v9L16 24l8-4.5v-9L16 6z" fill="#0A0B1A"/><path d="M16 10l-4 2.5v5L16 20l4-2.5v-5L16 10z" fill="url(#lg)"/><defs><linearGradient id="lg" x1="4" y1="2" x2="28" y2="30"><stop stop-color="#6C63FF"/><stop offset="1" stop-color="#00D9A6"/></linearGradient></defs></svg>
+      Nayepankh AI
+    </div>
+    <div class="nav-links">
+      <a class="active" onclick="scrollToSection('hero')">Home</a>
+      <a onclick="scrollToSection('features')">Features</a>
+      <a onclick="scrollToSection('dashboard')">AI Dashboard</a>
+      <a class="nav-cta" onclick="scrollToSection('dashboard')">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="orb"></div>
+      <div class="orb"></div>
+      <div class="orb"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-badge">Powered by Artificial Intelligence</div>
+      <h1>Empowering Dreams with <span>AI Innovation</span></h1>
+      <p>Nayepankh Foundation harnesses cutting-edge artificial intelligence to create personalized learning experiences, amplify social impact, and build a future where technology serves humanity.</p>
+      <div class="hero-buttons">
+        <button class="btn btn-primary" onclick="scrollToSection('dashboard')">Try AI Features</button>
+        <button class="btn btn-secondary" onclick="scrollToSection('features')">Explore More</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features">
+    <div class="section-header">
+      <h2>AI-Powered Features</h2>
+      <p>Discover how Nayepankh Foundation uses AI to create meaningful impact through personalized, intelligent experiences.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(108,99,255,0.15);color:#6C63FF;">💬</div>
+        <h3>AI Chat Assistant</h3>
+        <p>Conversational AI that understands your needs and provides intelligent, context-aware responses in real-time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(0,217,166,0.15);color:#00D9A6;">📝</div>
+        <h3>Content Generator</h3>
+        <p>Generate articles, stories, and educational content instantly with our advanced language AI models.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(255,107,157,0.15);color:#FF6B9D;">🎯</div>
+        <h3>Sentiment Analysis</h3>
+        <p>Understand emotions and opinions in text with real-time sentiment scoring and emotional intelligence.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:rgba(255,215,0,0.15);color:#FFD700;">✨</div>
+        <h3>Personalized Experience</h3>
+        <p>Tailored content recommendations and adaptive interfaces that learn from your preferences and behavior.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard -->
+  <section id="dashboard">
+    <div class="section-header">
+      <h2>AI Dashboard</h2>
+      <p>Explore our suite of AI tools. Your API key is stored locally and never sent to our servers.</p>
+    </div>
+
+    <!-- Personalized Welcome -->
+    <div class="dashboard-card full welcome-section" style="margin-bottom:1.5rem;">
+      <div class="welcome-name" id="greetingDisplay">Welcome to Nayepankh AI</div>
+      <div class="greeting" id="personalizedGreeting">Enter your name below for a personalized experience</div>
+      <div class="name-input-group">
+        <input type="text" id="nameInput" placeholder="Your name..." maxlength="30">
+        <button class="tool-btn" onclick="setUserName()">Set Name</button>
+        <button class="tool-btn" style="background:var(--gradient-2)" onclick="clearUserName()">Reset</button>
+      </div>
+      <div style="margin-top:0.8rem;display:flex;gap:0.5rem;justify-content:center;flex-wrap:wrap;">
+        <span style="font-size:0.8rem;color:var(--text-muted)">Quick greet:</span>
+        <button class="tool-btn" style="padding:4px 12px;font-size:0.75rem;" onclick="setQuickGreet('friend')">👋 Friend</button>
+        <button class="tool-btn" style="padding:4px 12px;font-size:0.75rem;" onclick="setQuickGreet('mentor')">🌟 Mentor</button>
+        <button class="tool-btn" style="padding:4px 12px;font-size:0.75rem;" onclick="setQuickGreet('student')">📚 Student</button>
+        <button class="tool-btn" style="padding:4px 12px;font-size:0.75rem;" onclick="setQuickGreet('volunteer')">🤝 Volunteer</button>
+      </div>
+    </div>
+
+    <div class="dashboard">
+      <!-- Chat -->
+      <div class="dashboard-card full">
+        <h3>💬 AI Chat Assistant</h3>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem;">
+          Powered by Hugging Face Inference API (free). 
+          <span style="cursor:pointer;color:var(--primary);" onclick="toggleApiKeyInput()">Set API Key</span>
+        </p>
+        <div id="apiKeyRow" style="display:none;margin-bottom:0.75rem;">
+          <div style="display:flex;gap:8px;">
+            <input type="password" id="apiKeyInput" class="tool-input" style="margin-bottom:0;" placeholder="hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
+            <button class="tool-btn" onclick="saveApiKey()">Save</button>
+          </div>
+          <p style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">
+            Get your free key at huggingface.co/settings/tokens (leave empty for demo mode)
+          </p>
+        </div>
+        <div class="chat-container">
+          <div class="chat-messages" id="chatMessages">
+            <div class="chat-message bot">
+              <div class="chat-avatar">N</div>
+              <div class="chat-bubble">Hello! I'm Nayepankh AI Assistant. How can I help you today? ✨</div>
+            </div>
+          </div>
+          <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Type your message..." onkeydown="if(event.key==='Enter') sendChatMessage()">
+            <button id="chatSendBtn" onclick="sendChatMessage()">Send</button>
+          </div>
+          <div class="chat-status" id="chatStatus">Ready</div>
+        </div>
+      </div>
+
+      <!-- Content Generator -->
+      <div class="dashboard-card">
+        <h3>📝 AI Content Generator</h3>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;">Generate articles, stories, or educational content</p>
+        <input type="text" id="contentTopic" class="tool-input" placeholder="Enter a topic..." value="Technology for social good">
+        <select id="contentStyle" class="tool-input" style="margin-bottom:0.75rem;">
+          <option value="article">Article</option>
+          <option value="story">Short Story</option>
+          <option value="poem">Poem</option>
+          <option value="educational">Educational</option>
+        </select>
+        <button class="tool-btn" id="genBtn" onclick="generateContent()">✨ Generate</button>
+        <div class="tool-output" id="contentOutput">Your generated content will appear here...</div>
+      </div>
+
+      <!-- Sentiment Analysis -->
+      <div class="dashboard-card">
+        <h3>🎯 Sentiment Analysis</h3>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:0.75rem;">Analyze the emotional tone of any text</p>
+        <textarea id="sentimentInput" class="tool-input" rows="3" placeholder="Enter text to analyze...">Nayepankh Foundation is doing incredible work empowering communities!</textarea>
+        <button class="tool-btn" id="sentBtn" onclick="analyzeSentiment()">🔍 Analyze</button>
+        <div id="sentimentResult"></div>
+      </div>
+
+      <!-- Personalized Recommendations -->
+      <div class="dashboard-card full">
+        <h3>✨ Personalized For You</h3>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">
+          AI-curated suggestions based on your interests and interaction patterns
+        </p>
+        <div style="display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;">
+          <button class="tool-btn" style="padding:6px 14px;font-size:0.8rem;" onclick="setInterest('education')">📖 Education</button>
+          <button class="tool-btn" style="padding:6px 14px;font-size:0.8rem;" onclick="setInterest('technology')">💻 Technology</button>
+          <button class="tool-btn" style="padding:6px 14px;font-size:0.8rem;" onclick="setInterest('health')">❤️ Health</button>
+          <button class="tool-btn" style="padding:6px 14px;font-size:0.8rem;" onclick="setInterest('environment')">🌿 Environment</button>
+          <button class="tool-btn" style="padding:6px 14px;font-size:0.8rem;" onclick="setInterest('arts')">🎨 Arts</button>
+        </div>
+        <div class="rec-list" id="recList">
+          <div class="rec-item">
+            <div class="rec-icon">💡</div>
+            <div class="rec-info">
+              <h4>Select an interest above</h4>
+              <p>Personalized recommendations will appear here</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Nayepankh Foundation — AI for Social Impact &copy; 2026</p>
+    <p style="margin-top:0.3rem;font-size:0.8rem;">Built with ❤️ for a better tomorrow</p>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // === Configuration ===
+    const HF_API_URL = 'https://api-inference.huggingface.co/models/';
+    const CHAT_MODEL = 'microsoft/DialoGPT-medium';
+    const GEN_MODEL = 'gpt2';
+    const SENTIMENT_MODEL = 'distilbert-base-uncased-finetuned-sst-2-english';
+
+    let apiKey = localStorage.getItem('hf_api_key') || '';
+    let userName = localStorage.getItem('nayepankh_user_name') || '';
+    let userInterest = localStorage.getItem('nayepankh_interest') || '';
+
+    // === Hugging Face API call ===
+    async function hfRequest(model, payload) {
+      const headers = { 'Content-Type': 'application/json' };
+      if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
+      const resp = await fetch(HF_API_URL + model, {
+        method: 'POST', headers, body: JSON.stringify(payload)
+      });
+      if (!resp.ok) {
+        const errText = await resp.text().catch(() => '');
+        throw new Error(`API ${resp.status}: ${errText || resp.statusText}`);
+      }
+      return resp.json();
+    }
+
+    // === Toast ===
+    function showToast(msg) {
+      const el = document.getElementById('toast');
+      el.textContent = msg; el.classList.add('show');
+      setTimeout(() => el.classList.remove('show'), 3000);
+    }
+
+    // === Scroll ===
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // === Personalized Greeting ===
+    function getTimeGreeting() {
+      const h = new Date().getHours();
+      if (h < 12) return 'Good morning';
+      if (h < 17) return 'Good afternoon';
+      return 'Good evening';
+    }
+
+    function updateGreeting() {
+      const display = document.getElementById('greetingDisplay');
+      const greet = document.getElementById('personalizedGreeting');
+      const name = document.getElementById('nameInput');
+      if (userName) {
+        display.textContent = `Welcome, ${userName}!`;
+        greet.textContent = `${getTimeGreeting()}! We're glad to see you. Your AI-powered experience awaits.`;
+        name.value = userName;
+      } else {
+        display.textContent = 'Welcome to Nayepankh AI';
+        greet.textContent = 'Enter your name above for a personalized experience';
+      }
+    }
+
+    function setUserName() {
+      const name = document.getElementById('nameInput').value.trim();
+      if (!name) { showToast('Please enter a name'); return; }
+      userName = name;
+      localStorage.setItem('nayepankh_user_name', name);
+      updateGreeting();
+      showToast('Welcome, ' + name + '!');
+    }
+
+    function clearUserName() {
+      userName = '';
+      localStorage.removeItem('nayepankh_user_name');
+      document.getElementById('nameInput').value = '';
+      updateGreeting();
+      showToast('Name cleared');
+    }
+
+    function setQuickGreet(role) {
+      const greetings = {
+        friend: ['Friend', 'Ready to explore something amazing today?'],
+        mentor: ['Mentor', 'Thank you for guiding the next generation of changemakers!'],
+        student: ['Student', 'Every expert was once a beginner. Let\'s learn together!'],
+        volunteer: ['Volunteer', 'Your time and heart make all the difference. Thank you!']
+      };
+      const [title, msg] = greetings[role] || ['', ''];
+      userName = title;
+      localStorage.setItem('nayepankh_user_name', title);
+      document.getElementById('nameInput').value = title;
+      updateGreeting();
+      showToast(msg);
+    }
+
+    // === API Key ===
+    function toggleApiKeyInput() {
+      const row = document.getElementById('apiKeyRow');
+      row.style.display = row.style.display === 'none' ? 'block' : 'none';
+      if (row.style.display === 'block' && apiKey) {
+        document.getElementById('apiKeyInput').value = apiKey;
+      }
+    }
+
+    function saveApiKey() {
+      const key = document.getElementById('apiKeyInput').value.trim();
+      apiKey = key;
+      localStorage.setItem('hf_api_key', key);
+      document.getElementById('apiKeyRow').style.display = 'none';
+      showToast(key ? 'API key saved!' : 'API key cleared. Demo mode active.');
+    }
+
+    // === Chat ===
+    async function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const msg = input.value.trim();
+      if (!msg) return;
+      input.value = '';
+      const container = document.getElementById('chatMessages');
+      const status = document.getElementById('chatStatus');
+      const btn = document.getElementById('chatSendBtn');
+
+      // Add user message
+      container.innerHTML += `
+        <div class="chat-message user">
+          <div class="chat-avatar">${userName ? userName[0].toUpperCase() : 'U'}</div>
+          <div class="chat-bubble">${escapeHtml(msg)}</div>
+        </div>
+      `;
+
+      // Typing indicator
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'chat-message bot';
+      typingDiv.id = 'typingIndicator';
+      typingDiv.innerHTML = `<div class="chat-avatar">N</div><div class="chat-bubble"><div class="typing-indicator"><span></span><span></span><span></span></div></div>`;
+      container.appendChild(typingDiv);
+      container.scrollTop = container.scrollHeight;
+      btn.disabled = true;
+      status.textContent = 'AI is thinking...';
+
+      try {
+        let reply;
+        if (apiKey) {
+          const data = await hfRequest(CHAT_MODEL, {
+            inputs: { text: msg },
+            parameters: { max_length: 150, temperature: 0.7 }
+          });
+          reply = data?.generated_text || data?.[0]?.generated_text || '';
+          if (!reply) reply = "I'm processing your request. Could you rephrase that?";
+        } else {
+          // Demo mode — smart responses
+          reply = demoChatResponse(msg);
+        }
+        document.getElementById('typingIndicator')?.remove();
+        container.innerHTML += `
+          <div class="chat-message bot">
+            <div class="chat-avatar">N</div>
+            <div class="chat-bubble">${escapeHtml(reply)}</div>
+          </div>
+        `;
+        status.textContent = 'Ready';
+      } catch (e) {
+        document.getElementById('typingIndicator')?.remove();
+        container.innerHTML += `
+          <div class="chat-message bot">
+            <div class="chat-avatar">N</div>
+            <div class="chat-bubble">🤖 ${escapeHtml(e.message)}. Using demo mode instead: ${demoChatResponse(msg)}</div>
+          </div>
+        `;
+        status.textContent = 'Using demo mode';
+      }
+      container.scrollTop = container.scrollHeight;
+      btn.disabled = false;
+    }
+
+    function demoChatResponse(msg) {
+      const lower = msg.toLowerCase();
+      const name = userName || 'friend';
+      if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey')) {
+        return `Hello ${name}! How can I assist you today?`;
+      }
+      if (lower.includes('who are you')) {
+        return "I'm the Nayepankh AI Assistant! I help with learning, creativity, and exploration.";
+      }
+      if (lower.includes('what can you do')) {
+        return "I can chat with you, generate content, analyze sentiment, and give personalized recommendations!";
+      }
+      if (lower.includes('nayepankh')) {
+        return "Nayepankh Foundation is dedicated to leveraging AI for social good, education, and community empowerment.";
+      }
+      if (lower.includes('thank')) {
+        return "You're welcome, " + name + "! I'm here anytime you need me. 😊";
+      }
+      if (lower.includes('bye') || lower.includes('goodbye')) {
+        return "Goodbye, " + name + "! Keep dreaming big with Nayepankh! 🌟";
+      }
+      if (lower.includes('ai') || lower.includes('artificial intelligence')) {
+        return "AI is transforming how we learn and work. At Nayepankh, we're making AI accessible to everyone!";
+      }
+      const fallbacks = [
+        `That's a great question, ${name}! Let me think about it...`,
+        `Interesting! Tell me more about that, ${name}.`,
+        `I'd love to help with that. Can you give me more details?`,
+        `Great point! Here at Nayepankh, we believe in the power of ideas.`
+      ];
+      return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+    }
+
+    // === Content Generator ===
+    async function generateContent() {
+      const topic = document.getElementById('contentTopic').value.trim();
+      const style = document.getElementById('contentStyle').value;
+      const output = document.getElementById('contentOutput');
+      const btn = document.getElementById('genBtn');
+      if (!topic) { showToast('Please enter a topic'); return; }
+
+      output.textContent = 'Generating...';
+      btn.disabled = true;
+
+      const promptMap = {
+        article: `Write an informative article about ${topic}.`,
+        story: `Write a short fictional story about ${topic}.`,
+        poem: `Write a short poem about ${topic}.`,
+        educational: `Explain ${topic} in simple terms for educational purposes.`
+      };
+
+      try {
+        let text;
+        if (apiKey) {
+          const data = await hfRequest('gpt2', {
+            inputs: promptMap[style],
+            parameters: { max_length: 200, temperature: 0.8, do_sample: true }
+          });
+          text = data?.[0]?.generated_text || data?.generated_text || '';
+          if (!text) throw new Error('No generated text');
+        } else {
+          text = demoGenerateContent(topic, style);
+        }
+        output.textContent = text;
+      } catch (e) {
+        output.textContent = demoGenerateContent(topic, style);
+      }
+      btn.disabled = false;
+    }
+
+    function demoGenerateContent(topic, style) {
+      const samples = {
+        article: `**Article: The Impact of "${topic}" on Our Future**\n\nIn today's rapidly evolving world, "${topic}" has emerged as a transformative force. Experts believe that embracing this shift will unlock unprecedented opportunities for communities worldwide.\n\nNayepankh Foundation is at the forefront of this movement, leveraging "${topic}" to create meaningful social impact. By combining innovation with compassion, we're building a future where technology serves humanity.\n\nKey takeaways:\n- "${topic}" is reshaping how we approach challenges\n- Community-driven solutions yield the best results\n- The future belongs to those who innovate with purpose`,
+        story: `**A Tale of "${topic}"**\n\nOnce upon a time, in a world not so different from ours, there was a quiet revolution brewing. At its heart was "${topic}" — a spark that would ignite change across generations.\n\nA young dreamer named Anya stumbled upon this hidden power. At first, she didn't understand its potential. But with guidance from the wise elders of her community, she learned that "${topic}" wasn't just a concept — it was a key.\n\nAnd so, Anya embarked on a journey that would transform not just her own life, but the lives of everyone she touched.`,
+        poem: `**Ode to "${topic}"**\n\nIn fields of thought where ideas bloom,\n"${topic}" dispels the doubt and gloom.\nA gentle light, a guiding star,\nIt shows us who we truly are.\n\nFrom whispered hope to action grand,\nIt spreads like sunshine across the land.\nWith Nayepankh's guiding hand so true,\n"${topic}" builds the world anew.`,
+        educational: `**Understanding "${topic}"**\n\n"${topic}" is a fascinating subject that touches many aspects of our lives.\n\nWhat is it? At its core, "${topic}" represents a way of thinking about and interacting with the world around us. It combines knowledge, practice, and creativity.\n\nWhy does it matter? Because "${topic}" helps us solve problems, connect with others, and build a better future. Whether you're a beginner or an expert, there's always something new to discover.\n\nHow to learn more: Stay curious, ask questions, and explore resources from organizations like Nayepankh Foundation that are dedicated to sharing knowledge.`
+      };
+      return samples[style] || samples.article;
+    }
+
+    // === Sentiment Analysis ===
+    async function analyzeSentiment() {
+      const text = document.getElementById('sentimentInput').value.trim();
+      const resultDiv = document.getElementById('sentimentResult');
+      const btn = document.getElementById('sentBtn');
+      if (!text) { showToast('Please enter text'); return; }
+
+      resultDiv.innerHTML = '<p style="color:var(--text-muted)">Analyzing...</p>';
+      btn.disabled = true;
+
+      try {
+        let label, score;
+        if (apiKey) {
+          const data = await hfRequest(SENTIMENT_MODEL, { inputs: text });
+          const top = data?.[0]?.[0];
+          if (top) {
+            label = top.label;
+            score = top.score;
+          } else {
+            throw new Error('No result');
+          }
+        } else {
+          const result = demoAnalyzeSentiment(text);
+          label = result.label;
+          score = result.score;
+        }
+
+        const pct = Math.round(score * 100);
+        const isPositive = label === 'POSITIVE';
+        const color = isPositive ? '#00D9A6' : '#FF6B9D';
+        const emoji = isPositive ? '😊' : '😔';
+
+        resultDiv.innerHTML = `
+          <div class="sentiment-result">
+            <div class="sentiment-gauge" style="background:conic-gradient(${color} 0% ${pct}%, var(--bg-card-hover) ${pct}% 100%);color:${color}">${pct}%</div>
+            <div>
+              <strong style="font-size:1.1rem;">${emoji} ${isPositive ? 'Positive' : 'Negative'}</strong>
+              <p style="color:var(--text-muted);font-size:0.85rem;margin-top:4px;">
+                Confidence: ${pct}% &middot; ${text.length > 60 ? text.slice(0, 60) + '...' : text}
+              </p>
+            </div>
+          </div>
+        `;
+      } catch (e) {
+        const result = demoAnalyzeSentiment(text);
+        const pct = Math.round(result.score * 100);
+        const isPos = result.label === 'POSITIVE';
+        const color = isPos ? '#00D9A6' : '#FF6B9D';
+        resultDiv.innerHTML = `
+          <div class="sentiment-result">
+            <div class="sentiment-gauge" style="background:conic-gradient(${color} 0% ${pct}%, var(--bg-card-hover) ${pct}% 100%);color:${color}">${pct}%</div>
+            <div>
+              <strong style="font-size:1.1rem;">${isPos ? '😊' : '😔'} ${isPos ? 'Positive' : 'Negative'}</strong>
+              <p style="color:var(--text-muted);font-size:0.85rem;margin-top:4px;">Demo result &middot; Save an API key for live analysis</p>
+            </div>
+          </div>
+        `;
+      }
+      btn.disabled = false;
+    }
+
+    function demoAnalyzeSentiment(text) {
+      const posWords = ['good', 'great', 'amazing', 'wonderful', 'excellent', 'happy', 'love', 'beautiful', 'incredible', 'best', 'positive', 'inspiring', 'hope', 'joy', 'care', 'empower', 'thank', 'together', 'bright', 'amazing', 'awesome'];
+      const negWords = ['bad', 'terrible', 'awful', 'horrible', 'sad', 'angry', 'hate', 'ugly', 'worst', 'negative', 'depressing', 'fear', 'pain', 'crisis', 'disaster', 'failure'];
+      const lower = text.toLowerCase();
+      let score = 0;
+      posWords.forEach(w => { if (lower.includes(w)) score += 10; });
+      negWords.forEach(w => { if (lower.includes(w)) score -= 10; });
+      const normalized = Math.max(-100, Math.min(100, score));
+      const positive = normalized >= 0;
+      const confidence = Math.abs(normalized) / 100;
+      return {
+        label: positive ? 'POSITIVE' : 'NEGATIVE',
+        score: Math.max(0.5, confidence)
+      };
+    }
+
+    // === Personalized Recommendations ===
+    function setInterest(interest) {
+      userInterest = interest;
+      localStorage.setItem('nayepankh_interest', interest);
+      updateRecommendations(interest);
+      showToast(`Interest set to: ${interest}`);
+    }
+
+    function updateRecommendations(interest) {
+      const list = document.getElementById('recList');
+      const recs = {
+        education: [
+          { icon: '📖', title: 'AI-Powered Learning Paths', desc: 'Personalized courses adapted to your pace' },
+          { icon: '🎓', title: 'Scholarship Opportunities', desc: 'AI-matched funding for your education' },
+          { icon: '📝', title: 'Smart Study Assistant', desc: 'Generate summaries and flashcards instantly' },
+          { icon: '🌍', title: 'Global Classroom Connect', desc: 'Learn with peers from around the world' }
+        ],
+        technology: [
+          { icon: '🤖', title: 'Build Your First AI Model', desc: 'Hands-on workshop with real tools' },
+          { icon: '💻', title: 'Coding for Social Impact', desc: 'Use tech to solve real-world problems' },
+          { icon: '🔧', title: 'Open Source Contribution Guide', desc: 'Start your journey in open source' },
+          { icon: '📊', title: 'Data Science for Beginners', desc: 'Learn data analysis with real datasets' }
+        ],
+        health: [
+          { icon: '❤️', title: 'AI Health Companion', desc: 'Personalized wellness insights and tips' },
+          { icon: '🧠', title: 'Mental Wellness Check-in', desc: 'AI-powered mood tracking and support' },
+          { icon: '🏥', title: 'Community Health Map', desc: 'Find health resources near you' },
+          { icon: '🥗', title: 'Nutrition AI Coach', desc: 'Personalized meal planning with AI' }
+        ],
+        environment: [
+          { icon: '🌿', title: 'Eco Impact Tracker', desc: 'Measure your carbon footprint with AI' },
+          { icon: '🌊', title: 'Clean Water Initiative', desc: 'AI-powered water quality monitoring' },
+          { icon: '🌱', title: 'Smart Gardening Guide', desc: 'AI recommendations for sustainable gardening' },
+          { icon: '♻️', title: 'Waste Reduction AI', desc: 'Personalized tips to reduce waste' }
+        ],
+        arts: [
+          { icon: '🎨', title: 'AI Art Generator', desc: 'Create stunning art with neural networks' },
+          { icon: '🎵', title: 'Music Composition AI', desc: 'Compose original melodies with AI' },
+          { icon: '📷', title: 'Creative Photography Guide', desc: 'AI-powered composition and editing tips' },
+          { icon: '🎭', title: 'Digital Storytelling', desc: 'Create immersive narratives with AI tools' }
+        ]
+      };
+      const items = recs[interest] || [
+        { icon: '💡', title: 'Select an interest above', desc: 'Personalized recommendations will appear here' }
+      ];
+      list.innerHTML = items.map(item => `
+        <div class="rec-item" onclick="showToast('${escapeHtml(item.title)} — coming soon!')">
+          <div class="rec-icon">${item.icon}</div>
+          <div class="rec-info">
+            <h4>${item.title}</h4>
+            <p>${item.desc}</p>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // === Utility ===
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    // === Init ===
+    document.addEventListener('DOMContentLoaded', () => {
+      if (apiKey) document.getElementById('apiKeyInput').value = apiKey;
+      updateGreeting();
+      if (userInterest) updateRecommendations(userInterest);
+      if (userName) document.getElementById('nameInput').value = userName;
+    });
+  </script>
+</body>
+</html>
